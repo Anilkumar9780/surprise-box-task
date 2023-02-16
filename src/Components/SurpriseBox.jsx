@@ -1,79 +1,66 @@
 import React, { useState } from "react";
 
-// Predefined list of winning numbers
-const winnerNumbers = [1, 2, 3];
+// predefined list of winner numbers
+const WINNER_NUMBERS = [1, 3, 5];
 
-export const SurpriseBox = () => {
-    const [userName, setUserName] = useState("");
-
-    // State to hold the number of visits for each user
-    const [visits, setVisits] = useState({});
+export function SurpriseBox() {
+    const [username, setUsername] = useState("");
+    const [winners, setWinners] = useState([]);
+    const [losers, setLosers] = useState([]);
 
     /**
-     * onChange userName input box
+     * Handler for username input changes
      * @param {object} event 
      */
-    const handleUserNameChange = (event) => {
-        setUserName(event.target.value);
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
     };
 
     /**
-     * updates the visits state 
-     * by incrementing the number of visits for the current user.
+     * handler for user submit
+     * don't count visits for empty usernames
+     * check if this username has already won or lost
+     * add this username to the appropriate list
+     * Reset the username input field
      */
     const handleVisit = () => {
-        setVisits((visits) => {
-            const newVisits = { ...visits };
-            if (!newVisits[userName]) {
-                newVisits[userName] = 0;
-            }
-            newVisits[userName]++;
-            return newVisits;
-        });
-        setUserName('');
-    };
-
-    /**
-     * Checks whether the current number of visits for the current user 
-     * is included in the predefined list of winning numbers,
-     * and returns a boolean value
-     * @returns boolean
-     */
-    const isWinner = () => {
-        return winnerNumbers.includes(visits[userName]);
-    };
-
-    /**
-     * Checks whether the current user has reached the maximum number of visits, 
-     * and returns a boolean value.
-     * @returns boolean
-     */
-    const isCanVisit = () => {
-        const userVisits = visits[userName] || 0;
-        return userVisits < winnerNumbers[winnerNumbers.length - 1];
+        if (!username) {
+            alert('Enter participate username ');
+            return;
+        }
+        if (winners.includes(username)) {
+            alert(`${username}, you were already a winner and cannot participate again.`);
+            return;
+        }
+        if (losers.includes(username)) {
+            alert(`${username}, you were already a loser and cannot participate again.`);
+            return;
+        }
+        const count = winners.length + losers.length + 1;
+        if (WINNER_NUMBERS.includes(count)) {
+            setWinners([...winners, username]);
+            alert(`${username}, winner!`);
+        } else {
+            setLosers([...losers, username]);
+            alert(`${username}, loser!.`);
+        }
+        setUsername("")
     };
 
     return (
         <div>
             <h1>Surprise Box</h1>
-            <p>
-                Enter your userName:
-                <input
-                    type="text"
-                    value={userName}
-                    onChange={handleUserNameChange}
-                />
-            </p>
-            {isCanVisit() ? (
-                <button onClick={handleVisit}>Visit the surprise box</button>
-            ) : (
-                <p>You have reached the maximum number of visits.</p>
-            )}
-            {isWinner() ? (
-                <p>Congratulations, you are a winner!</p>
-            ) : (
-                <p>Sorry, you are not a winner.</p>
-            )}
+            Enter your username :-
+            <input
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+            />
+            <button
+                onClick={handleVisit}
+            >
+                Submit
+            </button>
         </div>
     );
 }
