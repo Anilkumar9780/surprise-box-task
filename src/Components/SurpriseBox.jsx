@@ -29,11 +29,11 @@ export function SurpriseBox() {
             return;
         }
         if (winners.includes(username)) {
-            alert(`${username}, you were already a winner and cannot participate again.`);
+            alert(`${username},you were already winner participate in this Surprise box and you can not re-enter.`);
             return;
         }
         if (losers.includes(username)) {
-            alert(`${username}, you were already a loser and cannot participate again.`);
+            alert(`${username}, you were already losers participate in this Surprise box and you can not re-enter.`);
             return;
         }
         const count = winners.length + losers.length + 1;
@@ -50,13 +50,14 @@ export function SurpriseBox() {
     return (
         <div>
             <h1>Surprise Box</h1>
-            Enter your username :-
             <input
                 type="text"
                 value={username}
                 onChange={handleUsernameChange}
+                placeholder="Enter your name"
             />
             <button
+                type="submit"
                 onClick={handleVisit}
             >
                 Submit
