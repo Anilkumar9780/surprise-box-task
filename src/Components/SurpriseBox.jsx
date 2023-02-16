@@ -39,10 +39,10 @@ export function SurpriseBox() {
         const count = winners.length + losers.length + 1;
         if (WINNER_NUMBERS.includes(count)) {
             setWinners([...winners, username]);
-            alert(`${username}, winner!`);
+            alert(`${username},you are winner!`);
         } else {
             setLosers([...losers, username]);
-            alert(`${username}, loser!.`);
+            alert(`${username}, you are loser!.`);
         }
         setUsername("")
     };
